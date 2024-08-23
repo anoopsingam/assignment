@@ -170,7 +170,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"anooprathod7@gmail.com\",\n    \"password\":\"416e6f6f70@A\"\n}",
+							"raw": "{\n    \"email\":\"enter_your@email.com\",\n    \"password\":\"enter_your_passoword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
