@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "c8aebfb8-8fec-46e3-94f7-4f16dd9a7b82",
+		"name": "Assignment -OpenText",
+		"description": "#### **Pre requisits:**\n\n- php v8.2 and above\n    \n- if mac use laravel herd | windows use laragon or xamp\n    \n- database MySql or SqLite\n    \n\n#### **Project Setup Guidelines:**\n\n1. `composer install`\n    \n2. run `cp .env.example .env`\n    \n3. create an .env with a variable `DEBRICKED_URL=\"https://debricked.com/api\"`\n    \n4. Configure the mailer with your credentials\n    \n5. run `php artisan migrate`\n    \n6. run the queue for scan notifications: `php artisan queue:work --queue=scan_queue --timeout=0`\n    \n7. set your url in testing_env in postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15627080"
+	},
+	"item": [
+		{
+			"name": "Files",
+			"item": [
+				{
+					"name": "GetFileFormats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/doc/getSupportedFileFormats",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"doc",
+								"getSupportedFileFormats"
+							]
+						},
+						"description": "Get the allowed file formats from the api and cache them."
+					},
+					"response": []
+				},
+				{
+					"name": "UploadFile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "commitName",
+									"value": "init",
+									"type": "text"
+								},
+								{
+									"key": "ciUploadId",
+									"value": "6146843",
+									"type": "text"
+								},
+								{
+									"key": "repositoryUrl",
+									"value": "https://github.com/anoopsingam/flask_app",
+									"type": "text"
+								},
+								{
+									"key": "fileData",
+									"type": "file",
+									"src": "/Users/anoopnarayan/Downloads/Trash/Assignment/PHP Developer home task v3/composer.lock"
+								},
+								{
+									"key": "fileRelativePath",
+									"value": "/Users/anoopnarayan/Downloads/Trash/Assignment/PHP Developer home task v3",
+									"type": "text"
+								},
+								{
+									"key": "branchName",
+									"value": "main",
+									"type": "text"
+								},
+								{
+									"key": "defaultBranchName",
+									"value": "main",
+									"type": "text"
+								},
+								{
+									"key": "releaseName",
+									"value": "init v1",
+									"type": "text"
+								},
+								{
+									"key": "repositoryName",
+									"value": "flask_app",
+									"type": "text"
+								},
+								{
+									"key": "productName",
+									"value": "null",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/doc/uploadFile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"doc",
+								"uploadFile"
+							]
+						},
+						"description": "Upload the file to scan and check threats in dependencies\n\nin background the queuScan is automatically triggered and status will be auto notfied to user on uploading"
+					},
+					"response": []
+				},
+				{
+					"name": "QueueScan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "Send the files to queuing for scan to check the threats"
+					},
+					"response": []
+				},
+				{
+					"name": "getScanStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "get the status for the scan and threats found in the dependencies"
+					},
+					"response": []
+				}
+			],
+			"description": "Please use the file which is sent in the zip."
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"if(res.status===true){",
+									"    pm.environment.set('token', res.token);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"anooprathod7@gmail.com\",\n    \"password\":\"416e6f6f70@A\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "The Primary Api need to hit for Authorization to obtain bearer token to authorize the internal 3rd party api"
+					},
+					"response": []
+				}
+			],
+			"description": "The Authorization APIS"
+		},
+		{
+			"name": "Auth Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/test",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"test"
+					]
+				},
+				"description": "This is the debug api for testing purpose || Ignore"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
